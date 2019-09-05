@@ -10,14 +10,14 @@ using TestTask.Context;
 namespace TestTask.Migrations
 {
     [DbContext(typeof(MedContext))]
-    [Migration("20190905124433_Init")]
+    [Migration("20190905165553_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+                .HasAnnotation("ProductVersion", "2.1.8-servicing-32085")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -33,7 +33,11 @@ namespace TestTask.Migrations
 
                     b.Property<DateTime>("EventDate");
 
+                    b.Property<int>("PatientId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("PatientId");
 
                     b.ToTable("Grafts");
                 });
@@ -46,19 +50,29 @@ namespace TestTask.Migrations
 
                     b.Property<DateTime>("Birthday");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Patronymic");
 
                     b.Property<string>("SNILS");
 
-                    b.Property<string>("Sex");
+                    b.Property<int>("Sex");
 
-                    b.Property<string>("Surname");
+                    b.Property<string>("Surname")
+                        .HasMaxLength(70);
 
                     b.HasKey("Id");
 
                     b.ToTable("Patients");
+                });
+
+            modelBuilder.Entity("TestTask.Context.Graft", b =>
+                {
+                    b.HasOne("TestTask.Context.Patient", "Patient")
+                        .WithMany("Grafts")
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

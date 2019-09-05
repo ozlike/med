@@ -1,0 +1,66 @@
+﻿@using TestTask.ViewModels
+@model CreatePatientViewModel
+@{
+    ViewBag.Title = "Создать пользователя";
+}
+
+<link href="/css/patient/create.css" rel="stylesheet" asp-append-version="true" />
+
+@using (Html.BeginForm("Create", "Patient", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+
+    <div asp-validation-summary="All"></div>
+
+    <div class="field-section">
+        <label asp-for="Surname"></label>
+        <span asp-validation-for="Surname"></span>
+        <input asp-for="Surname" type="text" />
+    </div>
+
+    <div class="field-section">
+        <label asp-for="Name"></label>
+        <span asp-validation-for="Name"></span>
+        <input asp-for="Name" type="text" />
+    </div>
+
+
+    <div class="field-section">
+        <label asp-for="Patronymic"></label><span> (если есть)</span>
+        <span asp-validation-for="Patronymic"></span>
+        <input asp-for="Patronymic" type="text" />
+    </div>
+
+
+    <div class="field-section">
+        <label asp-for="Birthday"></label>
+        <span asp-validation-for="Birthday"></span>
+        <input asp-for="Birthday" type="datetime" />
+    </div>
+
+
+    <div class="field-section">
+        <label asp-for="Sex"></label>
+        <span asp-validation-for="Sex"></span>
+        <input asp-for="Sex" type="text" />
+    </div>
+
+    <div class="field-section">
+        <label asp-for="SNILS"></label>
+        <span asp-validation-for="SNILS"></span>
+        <input asp-for="SNILS" type="text" />
+    </div>
+
+
+    <input type="submit" value="Создать" />
+}
+
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", () => {
+
+
+
+    });
+</script>
+

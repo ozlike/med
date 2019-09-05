@@ -36,6 +36,8 @@ namespace TestTask
             services.AddDbContext<MedContext>(option =>
             option.UseSqlServer(Configuration.GetConnectionString("MedConnection")));
 
+            services.AddTransient<IDataProvider, DataProvider>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

@@ -15,7 +15,7 @@ namespace TestTask.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+                .HasAnnotation("ProductVersion", "2.1.8-servicing-32085")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -48,15 +48,17 @@ namespace TestTask.Migrations
 
                     b.Property<DateTime>("Birthday");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Patronymic");
 
                     b.Property<string>("SNILS");
 
-                    b.Property<string>("Sex");
+                    b.Property<int>("Sex");
 
-                    b.Property<string>("Surname");
+                    b.Property<string>("Surname")
+                        .HasMaxLength(70);
 
                     b.HasKey("Id");
 
