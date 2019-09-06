@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewData["Title"] = "All";
+}
+
+<link href="~/css/patient/all.css" rel="stylesheet" asp-append-version="true" />
+
+<div class="content">
+    <h1>Все пациенты</h1>
+
+    <table class="patients-table">
+        <thead>
+            <tr>
+                <th>Фамилия</th>
+                <th>Имя</th>
+                <th>Отчество</th>
+                <th>СНИЛС</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pacient in Model)
+            {
+                <tr onclick="">
+                    <td>@pacient.Surname</td>
+                    <td>@pacient.Name</td>
+                    <td>@pacient.Patronymic</td>
+                    <td>@pacient.SNILS</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

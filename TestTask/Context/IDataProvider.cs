@@ -9,7 +9,7 @@ namespace TestTask.Context
     public interface IDataProvider
     {
         DataProviderResult AddPatient(CreatePatientViewModel patientModel);
-
+        ICollection<Patient> GetAllPatients();
 
 
 

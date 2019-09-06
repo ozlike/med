@@ -40,6 +40,10 @@ namespace TestTask.Context
             return new DataProviderResult { Succeeded = false, Errors = new List<string>() { "Ошибка при добавлении пациента в базу данных" } };
         }
 
+        public ICollection<Patient> GetAllPatients()
+        {
+            return context.Patients.ToList();
+        }
     }
 
 

@@ -1,0 +1,54 @@
+﻿
+.content{
+    display: block;
+    width: 800px;
+    margin: 100px auto;
+}
+
+.content h1 {
+    font-size: 2.2rem;
+    font-weight: bold;
+    margin: 45px 0;
+    text-align: center;
+}
+
+.patients-table {
+    border-collapse: collapse;
+    width: 95%;
+    margin-bottom: 35px;
+}
+
+.patients-table thead th {
+    padding: 15px 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.patients-table tbody td {
+    padding: 10px 5px;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.patients-table tr:first-child {
+    font-weight: bold;
+}
+
+.patients-table tr {
+    border-bottom: 1px #aaa solid;
+}
+
+.patients-table tbody tr {
+    cursor: pointer;
+}
+
+.patients-table tr:hover {
+    background-color: #eee;
+}
+
+@media all and (max-width: 900px){
+    .content {
+        width: 90%;
+    }
+}

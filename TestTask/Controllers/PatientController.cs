@@ -43,5 +43,10 @@ namespace TestTask.Controllers
 
             return View(model);
         }
+
+        public IActionResult All()
+        {
+            return View(db.GetAllPatients());
+        }
     }
 }
