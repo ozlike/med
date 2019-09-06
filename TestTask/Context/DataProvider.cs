@@ -20,7 +20,7 @@ namespace TestTask.Context
         [ValidateAntiForgeryToken]
         public DataProviderResult AddPatient(CreatePatientViewModel patientModel)
         {
-            return new DataProviderResult { Succeeded = false, Errors = new List<string>() { "Ошибка при добавлении пациента в базу данных" } };
+            return new DataProviderResult { Succeeded = false, Errors = new List<string>() { "Временная заглушка на добавление" } };
             try
             {
                 Patient patient = new Patient

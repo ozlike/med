@@ -58,13 +58,12 @@
         <input asp-for="Sex" type="text" id="sexInput" />
         <select id="sexSelect">
             <option key="">Не выбрано</option>
-            @foreach (var item in Enum.GetNames(typeof(SexType)))
+            @foreach (var item in Enum.GetValues(typeof(SexType)))
             {
-                <option key="Female">@EnumAttribyte.GetDisplayNameAttribute(typeof(SexType))</option>
+                <option key="@item" selected="@Html.Raw(Model != null && Model.Sex == (SexType)item ? "true" : "false")">
+                    @(((SexType)item).GetDisplayNameAttribute())
+                </option>
             }
-
-            @*<option key="Male" @Html.Raw(Model.Sex= =TestTask.Context.SexType.Male ? "selected" : "" )>Мужской</option>
-            <option key="Female">Женский</option>*@
         </select>
     </div>
 
