@@ -23,6 +23,7 @@ namespace TestTask.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(CreatePatientViewModel model)
         {
             if (ModelState.IsValid)

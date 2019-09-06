@@ -26,7 +26,7 @@ namespace TestTask.ViewModels
         public string Patronymic { get; set; }
 
         [DisplayName("Дата рождения")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Поле \"{0}\" не должно быть пустым")]
+        [BirthdayValidation(150)]
         public DateTime Birthday { get; set; }
 
         [DisplayName("Пол")]
@@ -45,8 +45,8 @@ namespace TestTask.ViewModels
     {
         public override bool IsValid(object value)
         {
-            if (value == null) return false;
             ErrorMessage = "Снилс неверного формата";
+            if (value == null) return false;
             var snils = value.ToString();
             if (!Regex.IsMatch(snils, @"\A[0-9 \-]+\z")) return false;
             snils = string.Join("", snils.Where(x => char.IsDigit(x)));
@@ -69,4 +69,24 @@ namespace TestTask.ViewModels
         }
     }
 
+    [AttributeUsage(AttributeTargets.Property)]
+    public class BirthdayValidation : ValidationAttribute
+    {
+        public int MaximumAge { get; private set; }
+
+        public BirthdayValidation(int MaximumAge)
+        {
+            this.MaximumAge = MaximumAge;
+        }
+
+        public override bool IsValid(object value)
+        {
+            ErrorMessage = "Ошибка в дате рождения";
+            if (value == null) return false;
+            var date = Convert.ToDateTime(value);
+            if (date > DateTime.Now) return false;
+            if (date < DateTime.Now.AddYears(-MaximumAge)) return false;
+            return true;
+        }
+    }
 }

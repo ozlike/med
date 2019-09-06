@@ -3,85 +3,93 @@
 @using TestTask.Models
 @model CreatePatientViewModel
 @{
-    ViewBag.Title = "Создать пользователя";
+    ViewBag.Title = "Создать пациента";
 }
 
 <link href="/css/patient/create.css" rel="stylesheet" asp-append-version="true" />
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
+@*<link rel="stylesheet" href="/resources/demos/style.css">*@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-@using (Html.BeginForm("Create", "Patient", FormMethod.Post))
-{
-    @Html.AntiForgeryToken()
+<div class="content">
+    <h1>Создать пациента</h1>
 
-
-    //<div asp-validation-summary="All"></div>
-
-    @if (ViewBag.Errors != null)
+    @using (Html.BeginForm("Create", "Patient", FormMethod.Post))
     {
-        <ul>
-            @foreach (var error in ViewBag.Errors)
-            {
-                <li>@error</li>
-            }
-        </ul>
+        @Html.AntiForgeryToken()
+
+
+        //<div asp-validation-summary="All"></div>
+
+        @if (ViewBag.Errors != null)
+        {
+            <ul class="error-list">
+                @foreach (var error in ViewBag.Errors)
+                {
+                    <li class="error-text">@error</li>
+                }
+            </ul>
+        }
+
+        <div class="field-section">
+            <label asp-for="Surname"></label>
+            <span asp-validation-for="Surname" class="error-text"></span>
+            <input asp-for="Surname" type="text" />
+        </div>
+
+        <div class="field-section">
+            <label asp-for="Name"></label>
+            <span asp-validation-for="Name" class="error-text"></span>
+            <input asp-for="Name" type="text" />
+        </div>
+
+
+        <div class="field-section">
+            <div>
+                <label asp-for="Patronymic"></label> <span> (если есть)</span>
+            </div>
+            <span asp-validation-for="Patronymic" class="error-text"></span>
+            <input asp-for="Patronymic" type="text" />
+        </div>
+
+
+        <div class="field-section">
+            <label asp-for="Birthday"></label>
+            <span asp-validation-for="Birthday" id="dateSpan" class="error-text"></span>
+            <input asp-for="Birthday" type="text" id="datepicker" />
+        </div>
+
+
+        <div class="field-section">
+            <label asp-for="Sex"></label>
+            <span asp-validation-for="Sex" class="error-text" id="sexSpan"></span>
+            <input asp-for="Sex" type="text" id="sexInput" hidden />
+            <select id="sexSelect">
+                <option key="" id="@Html.Raw(Model == null ? "sSelected" : "")">Не выбрано</option>
+                @foreach (var item in Enum.GetValues(typeof(SexType)))
+                {
+                    <option key="@item" id="@(Html.Raw(Model != null && Model.Sex == (SexType)item ? "sSelected" : ""))">
+                        @(((SexType)item).GetDisplayNameAttribute())
+                    </option>
+                }
+            </select>
+        </div>
+
+
+        <div class="field-section">
+            <label asp-for="SNILS"></label>
+            <span asp-validation-for="SNILS" class="error-text"></span>
+            <input asp-for="SNILS" type="text" placeholder="XXX-XXX-XXX XX" />
+        </div>
+        
+        <div class="aligning-container">
+            <input type="submit" class="button" id="submitBtn" value="Создать" />
+        </div>
     }
 
-    <div class="field-section">
-        <label asp-for="Surname"></label>
-        <span asp-validation-for="Surname"></span>
-        <input asp-for="Surname" type="text" />
-    </div>
-
-    <div class="field-section">
-        <label asp-for="Name"></label>
-        <span asp-validation-for="Name"></span>
-        <input asp-for="Name" type="text" />
-    </div>
-
-
-    <div class="field-section">
-        <label asp-for="Patronymic"></label><span> (если есть)</span>
-        <span asp-validation-for="Patronymic"></span>
-        <input asp-for="Patronymic" type="text" />
-    </div>
-
-
-    <div class="field-section">
-        <label asp-for="Birthday"></label>
-        <span asp-validation-for="Birthday"></span>
-        <input asp-for="Birthday" type="text" />
-    </div>
-
-
-    <div class="field-section">
-        <label id="sexLabel" asp-for="Sex"></label>
-        <span asp-validation-for="Sex"></span>
-        <input asp-for="Sex" type="text" id="sexInput" />
-        <select id="sexSelect">
-            <option key="" id="@Html.Raw(Model == null ? "sSelected" : "")">Не выбрано</option>
-            @foreach (var item in Enum.GetValues(typeof(SexType)))
-            {
-                <option key="@item" id="@(Html.Raw(Model != null && Model.Sex == (SexType)item ? "sSelected" : ""))">
-                    @(((SexType)item).GetDisplayNameAttribute())
-                </option>
-            }
-        </select>
-    </div>
-
-
-    <div class="field-section">
-        <label asp-for="SNILS"></label>
-        <span asp-validation-for="SNILS"></span>
-        <input asp-for="SNILS" type="text" />
-    </div>
-
-
-    <input type="submit" id="submitBtn" value="Создать" />
-}
+</div>
 
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function () {
@@ -96,18 +104,29 @@
 
         /* События перед отправкой формы */
         document.getElementById("submitBtn").addEventListener("click", function (e) {
-            let sexLabel = document.getElementById("sexLabel");
+            let sexSpan = document.getElementById("sexSpan");
             if (sexInput.value.length == 0) {
-                sexLabel.innerHTML = "Не выбран пол";
+                sexSpan.innerHTML = "Не выбран пол";
                 e.preventDefault();
             }
-            else sexLabel.innerHTML = "";
+            else sexSpan.innerHTML = "";
+
+            let date = new Date(document.getElementById("datepicker").value);
+            let dateSpan = document.getElementById("dateSpan");
+            if (isNaN(date) || date > new Date() || new Date().getFullYear() - date.getFullYear() > 150) {
+                dateSpan.innerHTML = "Ошибка в дате рождения";
+                e.preventDefault();
+            }
+            else dateSpan.innerHTML = "";
         });
 
 
     });
     $(function () {
-        $("#datepicker").datepicker();
+        $("#datepicker").datepicker({
+            minDate: '-150Y',
+            maxDate: 'today'
+        });
     });
 </script>
 
