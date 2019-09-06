@@ -8,6 +8,11 @@
 
 <link href="/css/patient/create.css" rel="stylesheet" asp-append-version="true" />
 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 @using (Html.BeginForm("Create", "Patient", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
@@ -48,7 +53,7 @@
     <div class="field-section">
         <label asp-for="Birthday"></label>
         <span asp-validation-for="Birthday"></span>
-        <input asp-for="Birthday" type="datetime" />
+        <input asp-for="Birthday" type="text" />
     </div>
 
 
@@ -57,10 +62,10 @@
         <span asp-validation-for="Sex"></span>
         <input asp-for="Sex" type="text" id="sexInput" />
         <select id="sexSelect">
-            <option key="">Не выбрано</option>
+            <option key="" id="@Html.Raw(Model == null ? "sSelected" : "")">Не выбрано</option>
             @foreach (var item in Enum.GetValues(typeof(SexType)))
             {
-                <option key="@item" selected="@Html.Raw(Model != null && Model.Sex == (SexType)item ? "true" : "false")">
+                <option key="@item" id="@(Html.Raw(Model != null && Model.Sex == (SexType)item ? "sSelected" : ""))">
                     @(((SexType)item).GetDisplayNameAttribute())
                 </option>
             }
@@ -81,6 +86,7 @@
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function () {
         let sexInput = document.getElementById("sexInput");
+        document.getElementById("sSelected").setAttribute("selected", "selected");
 
         /* Управление полем 'Пол' */
         document.getElementById("sexSelect").addEventListener("input", function (e) {
@@ -98,6 +104,10 @@
             else sexLabel.innerHTML = "";
         });
 
+
+    });
+    $(function () {
+        $("#datepicker").datepicker();
     });
 </script>
 
