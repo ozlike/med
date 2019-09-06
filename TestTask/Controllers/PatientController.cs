@@ -34,9 +34,8 @@ namespace TestTask.Controllers
                     return Content("Added!");
                 }
 
-                result.Errors.ForEach(x => ModelState.AddModelError("", x));
-
-               // ModelState.AddModelError("", )
+                ViewBag.Errors = result.Errors;
+                //result.Errors.ForEach(x => ModelState.AddModelError("", x));
 
                 return View(model);
             }
