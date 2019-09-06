@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using TestTask.Models;
 
 namespace TestTask.Context
 {
@@ -19,11 +21,5 @@ namespace TestTask.Context
         public string SNILS { get; set; }
 
         public ICollection<Graft> Grafts { get; set; }
-    }
-    
-    public enum SexType
-    {
-        Male = 0,
-        Female = 1,
     }
 }

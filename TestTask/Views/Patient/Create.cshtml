@@ -1,4 +1,6 @@
 ﻿@using TestTask.ViewModels
+@using TestTask.Extensions
+@using TestTask.Models
 @model CreatePatientViewModel
 @{
     ViewBag.Title = "Создать пользователя";
@@ -51,10 +53,21 @@
 
 
     <div class="field-section">
-        <label asp-for="Sex"></label>
+        <label id="sexLabel" asp-for="Sex"></label>
         <span asp-validation-for="Sex"></span>
-        <input asp-for="Sex" type="text" />
+        <input asp-for="Sex" type="text" id="sexInput" />
+        <select id="sexSelect">
+            <option key="">Не выбрано</option>
+            @foreach (var item in Enum.GetNames(typeof(SexType)))
+            {
+                <option key="Female">@EnumAttribyte.GetDisplayNameAttribute(typeof(SexType))</option>
+            }
+
+            @*<option key="Male" @Html.Raw(Model.Sex= =TestTask.Context.SexType.Male ? "selected" : "" )>Мужской</option>
+            <option key="Female">Женский</option>*@
+        </select>
     </div>
+
 
     <div class="field-section">
         <label asp-for="SNILS"></label>
@@ -63,13 +76,28 @@
     </div>
 
 
-    <input type="submit" value="Создать" />
+    <input type="submit" id="submitBtn" value="Создать" />
 }
 
 <script type="text/javascript">
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", function () {
+        let sexInput = document.getElementById("sexInput");
+
+        /* Управление полем 'Пол' */
+        document.getElementById("sexSelect").addEventListener("input", function (e) {
+            sexInput.value = e.target.children[e.target.selectedIndex].getAttribute("key");
+        });
 
 
+        /* События перед отправкой формы */
+        document.getElementById("submitBtn").addEventListener("click", function (e) {
+            let sexLabel = document.getElementById("sexLabel");
+            if (sexInput.value.length == 0) {
+                sexLabel.innerHTML = "Не выбран пол";
+                e.preventDefault();
+            }
+            else sexLabel.innerHTML = "";
+        });
 
     });
 </script>

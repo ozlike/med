@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.RegularExpressions;
 using TestTask.Context;
+using TestTask.Models;
 
 namespace TestTask.ViewModels
 {
