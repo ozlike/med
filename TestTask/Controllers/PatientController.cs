@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TestTask.Context;
 using TestTask.ViewModels;
+using TestTask.Extensions;
 
 namespace TestTask.Controllers
 {
@@ -20,8 +21,36 @@ namespace TestTask.Controllers
         {
             var patient = db.GetPatientWithGrafts(id);
             if (patient == null) return RedirectToAction("All", "Patient");
-            
-            return View(patient);
+            return View(patient.CopyPropertyValuesTo(new PatientViewModel()));
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            var patient = db.GetPatient(id);
+            if (patient == null) return RedirectToAction("All", "Patient");
+
+            return View(patient.CopyPropertyValuesTo(new PatientViewModel()));
+        }
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(PatientViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = db.EditPatient(model);
+                if (result.Succeeded)
+                {
+                    return Content("Edited!");
+                }
+
+                ViewBag.Errors = result.Errors;
+
+                return View(model);
+            }
+
+            return View(model);
         }
 
         [HttpGet]
@@ -32,7 +61,7 @@ namespace TestTask.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(CreatePatientViewModel model)
+        public IActionResult Create(PatientViewModel model)
         {
             if (ModelState.IsValid)
             {

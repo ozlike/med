@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TestTask.Context;
 using TestTask.ViewModels;
+using TestTask.Extensions;
 
 namespace TestTask.Context
 {
@@ -19,7 +20,7 @@ namespace TestTask.Context
         }
 
         [ValidateAntiForgeryToken]
-        public DataProviderResult AddPatient(CreatePatientViewModel patientModel)
+        public DataProviderResult AddPatient(PatientViewModel patientModel)
         {
             try
             {
@@ -41,6 +42,21 @@ namespace TestTask.Context
             return new DataProviderResult { Succeeded = false, Errors = new List<string>() { "Ошибка при добавлении пациента в базу данных" } };
         }
 
+        public DataProviderResult EditPatient(PatientViewModel patientModel)
+        {
+            try
+            {
+                var patient = GetPatient(patientModel.Id);
+                if (patient == null) return new DataProviderResult { Succeeded = false, Errors = new List<string>() { "Пациент не найден" } };
+
+                patientModel.CopyPropertyValuesTo(patient);
+                context.SaveChanges();
+                return new DataProviderResult { Succeeded = true };
+            }
+            catch { }
+            return new DataProviderResult { Succeeded = false, Errors = new List<string>() { "Ошибка при редактировании пациента" } };
+        }
+
         public ICollection<Patient> GetAllPatients()
         {
             return context.Patients.ToList();
@@ -60,7 +76,7 @@ namespace TestTask.Context
 
         private string SnilsUniversalView(string val)
         {
-            return string.Join("", val.Where(x => char.IsDigit(x))).Insert(3, "-").Insert(7, "-").Insert(11, "-");            
+            return string.Join("", val.Where(x => char.IsDigit(x))).Insert(3, "-").Insert(7, "-").Insert(11, " ");            
         }
     }
 

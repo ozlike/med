@@ -10,8 +10,10 @@ using TestTask.Models;
 
 namespace TestTask.ViewModels
 {
-    public class CreatePatientViewModel
+    public class PatientViewModel
     {
+        public int Id { get; set; }
+
         [DisplayName("Фамилия")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Поле \"{0}\" не должно быть пустым")]
         [StringLength(70, ErrorMessage = "{0} должна иметь от {2} до {1} символов", MinimumLength = 2)]

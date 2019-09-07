@@ -16,16 +16,13 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
-.patient-info div {
+.patient-info div, .patient-info label {
     padding-bottom: 2px;
     margin-bottom: 14px;
     border-bottom: 1px #000 solid;
     text-align: center;
 }
-.patient-info div:nth-child(2n){
-    padding-left: 7px;
-}
-.patient-info div:nth-child(2n+1) {
+.patient-info label:nth-child(2n+1) {
     font-weight: bold;
 }
 

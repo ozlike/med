@@ -22,7 +22,7 @@
         <tbody>
             @foreach (var pacient in Model)
             {
-                <tr onclick="" class="patient-line">
+                <tr onclick="goToPage('/Patient/Edit?id=@pacient.Id')" class="patient-line">
                     <td>@pacient.Surname</td>
                     <td>@pacient.Name</td>
                     <td>@pacient.Patronymic</td>
@@ -59,4 +59,7 @@
         return false;
     }
 
+    function goToPage(url) {
+        window.location.href = url;
+    }
 </script>

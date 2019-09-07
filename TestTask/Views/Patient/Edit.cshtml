@@ -1,9 +1,10 @@
-﻿@using TestTask.ViewModels
+﻿
+@using TestTask.ViewModels
 @using TestTask.Extensions
 @using TestTask.Models
 @model PatientViewModel
 @{
-    ViewBag.Title = "Создать пациента";
+    ViewBag.Title = "Редактировать пациента";
 }
 
 <link href="/css/patient/create.css" rel="stylesheet" asp-append-version="true" />
@@ -15,10 +16,11 @@
 <div class="content">
     <h1>@ViewBag.Title</h1>
 
-    @using (Html.BeginForm("Create", "Patient", FormMethod.Post))
+    @using (Html.BeginForm("Edit", "Patient", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
-        
+
+
         @if (ViewBag.Errors != null)
         {
             <ul class="error-list">
@@ -79,12 +81,15 @@
             <span asp-validation-for="SNILS" class="error-text"></span>
             <input asp-for="SNILS" type="text" placeholder="XXX-XXX-XXX XX" />
         </div>
-        
+
+        <input asp-for="Id" type="text" hidden />
+
         <div class="aligning-container">
-            <input type="submit" class="button" id="submitBtn" value="Создать" />
+            <input type="submit" class="button" id="submitBtn" value="Сохранить изменения" />
         </div>
     }
 
 </div>
-<script src="~/js/patientControlFilling.js" asp-append-version="true"></script>
 
+
+<script src="~/js/patientControlFilling.js" asp-append-version="true"></script>
