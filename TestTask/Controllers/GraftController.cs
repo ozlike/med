@@ -27,6 +27,7 @@ namespace TestTask.Controllers
             return View(new GraftViewModel
             {
                 PatientId = (int)patientId,
+                EventDate = null,
                 PatientFullName = $"{patient.Surname} {patient.Name} {patient.Patronymic}",
             });
         }
@@ -42,18 +43,53 @@ namespace TestTask.Controllers
                 {
                     return View("ShowMessage", new ShowMessageModel
                     {
-                        Message = "Прививка успешно добавлена!",
+                        Message = "Прививка успешно добавлена",
                         Url = "/Patient/Index?id=" + (result.ReturnedData as int?),
                     });
-                }
-                
-                if (result.ReturnedData == null) return RedirectToAction("All", "Patient");
-
+                }                
+                if (result.ReturnedData == null) return View("ShowMessage", new ShowMessageModel
+                {
+                    Message = "Ошибка при добавлении прививки",
+                    Url = "/Patient/All",
+                    Error = true,
+                });
                 ViewBag.Errors = result.Errors;
-
                 return View(model);
             }
+            return View(model);
+        }
 
+        [HttpGet]
+        public async Task<IActionResult> Edit(int? patientId, int? graftId)
+        {
+            var patient = await db.GetPatient(patientId);
+            if (patient == null) return RedirectToAction("All", "Patient");
+
+            var graft = await db.GetGraft(graftId);
+
+            return View(graft.CopyPropertyValuesTo(new GraftViewModel {
+                PatientFullName = $"{patient.Surname} {patient.Name} {patient.Patronymic}"
+            }));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(GraftViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await db.EditGraft(model);
+                if (result.Succeeded)
+                {
+                    return View("ShowMessage", new ShowMessageModel
+                    {
+                        Message = "Прививка успешно отредактирована",
+                        Url = "/Patient/Index?id=" + model.PatientId,
+                    });
+                }
+                ViewBag.Errors = result.Errors;
+                return View(model);
+            }
             return View(model);
         }
     }

@@ -11,5 +11,6 @@ namespace TestTask.Models
         public string Message { get; set; } = "Перенаправление...";
         public string Title { get; set; } = "Перенаправление...";
         public string Url { get; set; } = "/";
+        public bool Error { get; set; } = false;
     }
 }

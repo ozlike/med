@@ -22,6 +22,7 @@ namespace TestTask.Controllers
         {
             var patient = await db.GetPatientWithGrafts(id);
             if (patient == null) return RedirectToAction("All", "Patient");
+            ViewBag.Grafts = patient.Grafts.OrderBy(x => x.EventDate).ToList();
             return View(patient.CopyPropertyValuesTo(new PatientViewModel()));
         }
 
@@ -29,7 +30,12 @@ namespace TestTask.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             var patient = await db.GetPatient(id);
-            if (patient == null) return RedirectToAction("All", "Patient");
+            if (patient == null) return View("ShowMessage", new ShowMessageModel
+            {
+                Message = "Ошибка при редактировании пациента",
+                Url = "/Patient/All",
+                Error = true,
+            });
 
             return View(patient.CopyPropertyValuesTo(new PatientViewModel()));
         }
@@ -44,7 +50,7 @@ namespace TestTask.Controllers
                 if (result.Succeeded)
                 {
                     return View("ShowMessage", new ShowMessageModel {
-                        Message = "Пользователь успешно отредактирован!",
+                        Message = "Пользователь успешно отредактирован",
                         Url = "/Patient/Index?id=" + model.Id,
                     });
                 }
@@ -74,7 +80,7 @@ namespace TestTask.Controllers
                 {
                     return View("ShowMessage", new ShowMessageModel
                     {
-                        Message = "Пользователь успешно добавлен!",
+                        Message = "Пользователь успешно добавлен",
                         Url = "/Patient/Index?id=" + (result.ReturnedData as int?),
                     });
                 }

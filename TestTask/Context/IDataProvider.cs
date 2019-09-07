@@ -11,12 +11,12 @@ namespace TestTask.Context
         Task<DataProviderResult> AddPatient(PatientViewModel patientModel);
         Task<DataProviderResult> EditPatient(PatientViewModel patientModel);
         Task<ICollection<Patient>> GetAllPatients();
-        Task<Patient> GetPatient(int? id);
-        Task<Patient> GetPatientWithGrafts(int? id);
+        Task<Patient> GetPatient(int? patientId);
+        Task<Patient> GetPatientWithGrafts(int? patientId);
 
 
         Task<DataProviderResult> AddGraft(GraftViewModel graftModel);
-
-
+        Task<DataProviderResult> EditGraft(GraftViewModel graftModel);
+        Task<Graft> GetGraft(int? draftId);
     }
 }

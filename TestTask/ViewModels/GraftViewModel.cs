@@ -9,6 +9,8 @@ namespace TestTask.ViewModels
 {
     public class GraftViewModel
     {
+        public int? Id { get; set; }
+        
         [DisplayName("Препарат")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Препарат не выбран")]
         public string Drug { get; set; }
@@ -19,7 +21,7 @@ namespace TestTask.ViewModels
 
         [DisplayName("Дата проведения")]
         [PastDateValidation(150)]
-        public DateTime EventDate { get; set; }
+        public DateTime? EventDate { get; set; }
 
         public string PatientFullName { get; set; }
         public int PatientId { get; set; }

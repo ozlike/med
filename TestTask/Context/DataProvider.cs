@@ -29,7 +29,7 @@ namespace TestTask.Context
                 Graft graft = new Graft
                 {
                     Drug = graftModel.Drug,
-                    EventDate = graftModel.EventDate,
+                    EventDate = (DateTime)graftModel.EventDate,
                     Consent = graftModel.Consent,
                     Patient = patient,
                 };
@@ -64,6 +64,21 @@ namespace TestTask.Context
             return new DataProviderResult { Succeeded = false, Errors = new List<string>() { "Ошибка при добавлении пациента в базу данных" } };
         }
 
+        public async Task<DataProviderResult> EditGraft(GraftViewModel graftModel)
+        {
+            try
+            {
+                var graft = await GetGraft(graftModel.Id);
+                if (graft == null) return new DataProviderResult { Succeeded = false, Errors = new List<string>() { "Прививка не найдена" } };
+
+                graftModel.CopyPropertyValuesTo(graft);
+                await context.SaveChangesAsync();
+                return new DataProviderResult { Succeeded = true };
+            }
+            catch { }
+            return new DataProviderResult { Succeeded = false, Errors = new List<string>() { "Ошибка при редактировании прививки" } };
+        }
+
         public async Task<DataProviderResult> EditPatient(PatientViewModel patientModel)
         {
             try
@@ -84,16 +99,22 @@ namespace TestTask.Context
             return await context.Patients.ToListAsync();
         }
 
-        public async Task<Patient> GetPatient(int? id)
+        public async Task<Graft> GetGraft(int? draftId)
         {
-            if (!id.HasValue) return null;
-            return await context.Patients.Where(x => x.Id == id).FirstOrDefaultAsync();
+            if (!draftId.HasValue) return null;
+            return await context.Grafts.Where(x => x.Id == draftId).FirstOrDefaultAsync();
         }
 
-        public async Task<Patient> GetPatientWithGrafts(int? id)
+        public async Task<Patient> GetPatient(int? patientId)
         {
-            if (!id.HasValue) return null;
-            return await context.Patients.Where(x => x.Id == id).Include(x => x.Grafts).FirstOrDefaultAsync();
+            if (!patientId.HasValue) return null;
+            return await context.Patients.Where(x => x.Id == patientId).FirstOrDefaultAsync();
+        }
+
+        public async Task<Patient> GetPatientWithGrafts(int? patientId)
+        {
+            if (!patientId.HasValue) return null;
+            return await context.Patients.Where(x => x.Id == patientId).Include(x => x.Grafts).FirstOrDefaultAsync();
         }
 
         private string SnilsUniversalView(string val)
