@@ -60,7 +60,7 @@
         <div class="field-section">
             <label asp-for="EventDate"></label>
             <span asp-validation-for="EventDate" id="dateSpan" class="error-text"></span>
-            <input asp-for="EventDate" type="text" id="datepicker" />
+            <input name="EventDate" value="@Html.Raw(Model == null || Model.EventDate == null ? "" : ((DateTime)Model.EventDate).ToString("dd.MM.yyyy"))" type="text" id="datepicker" placeholder="дд.мм.гггг" />
         </div>
 
         <input asp-for="PatientId" hidden />

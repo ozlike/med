@@ -62,7 +62,7 @@
                     <tr onclick="goToPage('/Graft/Edit?patientId=@(Model.Id)&graftId=@(graft.Id)')" class="patient-line">
                         <td>@graft.Drug</td>
                         <td>@(graft.Consent ? "+" : "-")</td>
-                        <td>@graft.EventDate</td>
+                        <td>@graft.EventDate.ToString("dd.MM.yyyy")</td>
                     </tr>
                 }
             </tbody>
