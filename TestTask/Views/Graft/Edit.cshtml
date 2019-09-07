@@ -5,13 +5,36 @@
     ViewBag.Title = "Редактирование прививки";
 }
 <link href="/css/graft/add.css" rel="stylesheet" asp-append-version="true" />
+<link href="/css/common/modal-window.css" rel="stylesheet"  asp-append-version="true" />
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+<div class="modal-window-container hide">
+    <div class="modal-window">
+        <div class="model-text">Вы действительно хотите удалить прививку?</div>
+        <div class="modal-buttons">
+            <div class="no">Нет</div>
+            <div class="yes">Да</div>
+        </div>
+    </div>
+</div>
+
 <div class="content">
     <h1>@ViewBag.Title</h1>
+    <div id="deleteFormContainer">
+        @using (Html.BeginForm("Delete", "Graft", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <input asp-for="Id" hidden />
+            <input asp-for="PatientId" hidden />
+
+            <div class="danger" id="deleteGraft">Удалить прививку</div>
+        }
+    </div>
+
     <div class="patient-area">Пациент: <span>@Model.PatientFullName</span></div>
 
     @using (Html.BeginForm("Edit", "Graft", FormMethod.Post))
@@ -63,4 +86,5 @@
 
 </div>
 
-<script src="~/js/dateControl.js" asp-append-version="true"></script>
+<script src="/js/dateControl.js" asp-append-version="true"></script>
+<script src="/js/modal-window.js" asp-append-version="true"></script>

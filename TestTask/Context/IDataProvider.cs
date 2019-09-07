@@ -10,6 +10,7 @@ namespace TestTask.Context
     {
         Task<DataProviderResult> AddPatient(PatientViewModel patientModel);
         Task<DataProviderResult> EditPatient(PatientViewModel patientModel);
+        Task<DataProviderResult> DeletePatient(PatientViewModel patientModel);
         Task<ICollection<Patient>> GetAllPatients();
         Task<Patient> GetPatient(int? patientId);
         Task<Patient> GetPatientWithGrafts(int? patientId);
@@ -17,6 +18,7 @@ namespace TestTask.Context
 
         Task<DataProviderResult> AddGraft(GraftViewModel graftModel);
         Task<DataProviderResult> EditGraft(GraftViewModel graftModel);
+        Task<DataProviderResult> DeleteGraft(GraftViewModel graftModel);
         Task<Graft> GetGraft(int? draftId);
     }
 }

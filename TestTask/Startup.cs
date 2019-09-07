@@ -68,6 +68,6 @@ namespace TestTask
     }
 }
 
-// Format of date + errors 26.06.2019
+// Format of date + errors 26.06.2019 * orderBy()
 // Navigation
 // Delete func

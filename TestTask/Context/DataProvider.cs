@@ -64,6 +64,35 @@ namespace TestTask.Context
             return new DataProviderResult { Succeeded = false, Errors = new List<string>() { "Ошибка при добавлении пациента в базу данных" } };
         }
 
+        public async Task<DataProviderResult> DeleteGraft(GraftViewModel graftModel)
+        {
+            try
+            {
+                var graft = await GetGraft(graftModel.Id);
+                if (graft == null) return new DataProviderResult { Succeeded = false, Errors = new List<string>() { "Прививка не найдена" } };
+                if (graft.PatientId != graftModel.PatientId) return new DataProviderResult { Succeeded = false, Errors = new List<string>() { "Попытка удаления прививки у другого пользователя" } };
+                context.Grafts.Remove(graft);
+                await context.SaveChangesAsync();
+                return new DataProviderResult { Succeeded = true };
+            }
+            catch { }
+            return new DataProviderResult { Succeeded = false, Errors = new List<string>() { "Ошибка при удалении прививки" } };
+        }
+
+        public async Task<DataProviderResult> DeletePatient(PatientViewModel patientModel)
+        {
+            try
+            {
+                var patient = await GetPatient(patientModel.Id);
+                if (patient == null) return new DataProviderResult { Succeeded = false, Errors = new List<string>() { "Пациент не найден" } };
+                context.Patients.Remove(patient);
+                await context.SaveChangesAsync();
+                return new DataProviderResult { Succeeded = true };
+            }
+            catch { }
+            return new DataProviderResult { Succeeded = false, Errors = new List<string>() { "Ошибка при удалении прививки" } };
+        }
+
         public async Task<DataProviderResult> EditGraft(GraftViewModel graftModel)
         {
             try

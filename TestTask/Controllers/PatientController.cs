@@ -63,6 +63,28 @@ namespace TestTask.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(PatientViewModel model)
+        {
+            var result = await db.DeletePatient(model);
+            if (result.Succeeded)
+            {
+                return View("ShowMessage", new ShowMessageModel
+                {
+                    Message = "Пользователь успешно удалён",
+                    Url = "/Patient/All",
+                });
+            }
+            
+            return View("ShowMessage", new ShowMessageModel
+            {
+                Message = (result.Errors.Count == 0 ? "Ошибка при удалении пользователя" : result.Errors.FirstOrDefault()),
+                Url = "/Patient/All",
+                Error = true,
+            });
+        }
+
         [HttpGet]
         public IActionResult Create()
         {

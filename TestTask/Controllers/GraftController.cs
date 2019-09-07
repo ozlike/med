@@ -66,6 +66,7 @@ namespace TestTask.Controllers
             if (patient == null) return RedirectToAction("All", "Patient");
 
             var graft = await db.GetGraft(graftId);
+            if (graft == null) return RedirectToAction("Index", "Patient", new { id = patientId });
 
             return View(graft.CopyPropertyValuesTo(new GraftViewModel {
                 PatientFullName = $"{patient.Surname} {patient.Name} {patient.Patronymic}"
@@ -91,6 +92,28 @@ namespace TestTask.Controllers
                 return View(model);
             }
             return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(GraftViewModel model)
+        {
+            var result = await db.DeleteGraft(model);
+            if (result.Succeeded)
+            {
+                return View("ShowMessage", new ShowMessageModel
+                {
+                    Message = "Прививка успешно удалена",
+                    Url = "/Patient/Index?id=" + model.PatientId,
+                });
+            }
+
+            return View("ShowMessage", new ShowMessageModel
+            {
+                Message = (result.Errors.Count == 0 ? "Ошибка при удалении прививки" : result.Errors.FirstOrDefault()),
+                Url = "/Patient/Index?id=" + model.PatientId,
+                Error = true,
+            });
         }
     }
 }

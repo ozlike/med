@@ -8,13 +8,37 @@
 }
 
 <link href="/css/patient/create.css" rel="stylesheet" asp-append-version="true" />
+<link href="/css/common/modal-window.css" rel="stylesheet" asp-append-version="true" />
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+
+<div class="modal-window-container hide">
+    <div class="modal-window">
+        <div class="model-text">Вы действительно хотите удалить пациента?</div>
+        <div class="modal-buttons">
+            <div class="no">Нет</div>
+            <div class="yes">Да</div>
+        </div>
+    </div>
+</div>
+
+
 <div class="content">
     <h1>@ViewBag.Title</h1>
+
+    <div id="deleteFormContainer">
+        @using (Html.BeginForm("Delete", "Patient", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <input asp-for="Id" hidden />
+
+            <div class="danger" id="deleteGraft">Удалить пациента</div>
+        }
+    </div>
 
     @using (Html.BeginForm("Edit", "Patient", FormMethod.Post))
     {
@@ -92,3 +116,4 @@
 
 
 <script src="~/js/dateControl.js" asp-append-version="true"></script>
+<script src="/js/modal-window.js" asp-append-version="true"></script>
