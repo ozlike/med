@@ -11,6 +11,6 @@ namespace TestTask.Models
         [DisplayName("Мужской")]
         Male = 0,
         [DisplayName("Женский")]
-        Female = 1,
+        Female = 1
     }
 }

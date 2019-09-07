@@ -35,10 +35,11 @@
     <div class="aligning-container">
         <div class="button" onclick="goToPage('/Patient/Edit?id=@Model.Id')">Редактировать</div>
     </div>
-</div>
 
-<script type="text/javascript">
-    function goToPage(url) {
-        window.location.href = url;
-    }
-</script>
+
+
+
+    <div class="aligning-container">
+        <div class="button" onclick="goToPage('/Graft/Add?patientId=@Model.Id')">Добавить прививку</div>
+    </div>
+</div>

@@ -8,12 +8,14 @@ namespace TestTask.Context
 {
     public interface IDataProvider
     {
-        DataProviderResult AddPatient(PatientViewModel patientModel);
-        DataProviderResult EditPatient(PatientViewModel patientModel);
-        ICollection<Patient> GetAllPatients();
-        Patient GetPatient(int? id);
-        Patient GetPatientWithGrafts(int? id);
+        Task<DataProviderResult> AddPatient(PatientViewModel patientModel);
+        Task<DataProviderResult> EditPatient(PatientViewModel patientModel);
+        Task<ICollection<Patient>> GetAllPatients();
+        Task<Patient> GetPatient(int? id);
+        Task<Patient> GetPatientWithGrafts(int? id);
 
+
+        Task<DataProviderResult> AddGraft(GraftViewModel graftModel);
 
 
     }

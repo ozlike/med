@@ -8,6 +8,11 @@
 <div class="content">
     <h1>Все пациенты</h1>
 
+
+    <div class="aligning-container">
+        <div onclick="goToPage('/Patient/Create')" class="button">Добавить пациента</div>
+    </div>
+
     <input type="text" class="search-panel" id="search" placeholder="Поиск (ФИО СНИЛС)" />
 
     <table class="patients-table">
@@ -22,7 +27,7 @@
         <tbody>
             @foreach (var pacient in Model)
             {
-                <tr onclick="goToPage('/Patient/Edit?id=@pacient.Id')" class="patient-line">
+                <tr onclick="goToPage('/Patient/Index?id=@pacient.Id')" class="patient-line">
                     <td>@pacient.Surname</td>
                     <td>@pacient.Name</td>
                     <td>@pacient.Patronymic</td>
@@ -57,9 +62,5 @@
             if (regex.test(cell.innerText)) return true;
         }
         return false;
-    }
-
-    function goToPage(url) {
-        window.location.href = url;
     }
 </script>

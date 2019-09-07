@@ -18,17 +18,17 @@ namespace TestTask.Controllers
             db = dataProvider;
         }
 
-        public IActionResult Index(int? id)
+        public async Task<IActionResult> Index(int? id)
         {
-            var patient = db.GetPatientWithGrafts(id);
+            var patient = await db.GetPatientWithGrafts(id);
             if (patient == null) return RedirectToAction("All", "Patient");
             return View(patient.CopyPropertyValuesTo(new PatientViewModel()));
         }
 
         [HttpGet]
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
-            var patient = db.GetPatient(id);
+            var patient = await db.GetPatient(id);
             if (patient == null) return RedirectToAction("All", "Patient");
 
             return View(patient.CopyPropertyValuesTo(new PatientViewModel()));
@@ -36,11 +36,11 @@ namespace TestTask.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(PatientViewModel model)
+        public async Task<IActionResult> Edit(PatientViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var result = db.EditPatient(model);
+                var result = await db.EditPatient(model);
                 if (result.Succeeded)
                 {
                     return View("ShowMessage", new ShowMessageModel {
@@ -65,22 +65,21 @@ namespace TestTask.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(PatientViewModel model)
+        public async Task<IActionResult> Create(PatientViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var result = db.AddPatient(model);
+                var result = await db.AddPatient(model);
                 if (result.Succeeded)
                 {
                     return View("ShowMessage", new ShowMessageModel
                     {
                         Message = "Пользователь успешно добавлен!",
-                        Url = "/Patient/Index?id=" + (result.AdditionalData as int?),
+                        Url = "/Patient/Index?id=" + (result.ReturnedData as int?),
                     });
                 }
 
                 ViewBag.Errors = result.Errors;
-                //result.Errors.ForEach(x => ModelState.AddModelError("", x));
 
                 return View(model);
             }
@@ -88,9 +87,9 @@ namespace TestTask.Controllers
             return View(model);
         }
 
-        public IActionResult All()
+        public async Task<IActionResult> All()
         {
-            return View(db.GetAllPatients());
+            return View(await db.GetAllPatients());
         }
     }
 }

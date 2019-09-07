@@ -62,13 +62,12 @@
 
         <div class="field-section">
             <label asp-for="Sex"></label>
-            <span asp-validation-for="Sex" class="error-text" id="sexSpan"></span>
-            <input asp-for="Sex" type="text" id="sexInput" hidden />
-            <select id="sexSelect">
-                <option key="" id="@Html.Raw(Model == null ? "sSelected" : "")">Не выбрано</option>
+            <span asp-validation-for="Sex" class="error-text"></span>
+            <select asp-for="Sex">
+                <option value="">Не выбрано</option>
                 @foreach (var item in Enum.GetValues(typeof(SexType)))
                 {
-                    <option key="@item" id="@(Html.Raw(Model != null && Model.Sex == (SexType)item ? "sSelected" : ""))">
+                    <option value="@item">
                         @(((SexType)item).GetDisplayNameAttribute())
                     </option>
                 }
@@ -92,4 +91,4 @@
 </div>
 
 
-<script src="~/js/patientControlFilling.js" asp-append-version="true"></script>
+<script src="~/js/dateControl.js" asp-append-version="true"></script>

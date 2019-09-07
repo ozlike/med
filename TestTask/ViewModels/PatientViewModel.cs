@@ -12,7 +12,7 @@ namespace TestTask.ViewModels
 {
     public class PatientViewModel
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [DisplayName("Фамилия")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Поле \"{0}\" не должно быть пустым")]
@@ -28,12 +28,12 @@ namespace TestTask.ViewModels
         public string Patronymic { get; set; }
 
         [DisplayName("Дата рождения")]
-        [BirthdayValidation(150)]
+        [PastDateValidation(150, ErrorMessage = "Ошибка в дате рождения")]
         public DateTime Birthday { get; set; }
 
         [DisplayName("Пол")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Поле \"{0}\" не должно быть пустым")]
-        public SexType Sex { get; set; }
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Пол не выбран")]
+        public SexType? Sex { get; set; }
 
         [DisplayName("Снилс")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Поле \"{0}\" не должно быть пустым")]
@@ -72,18 +72,18 @@ namespace TestTask.ViewModels
     }
 
     [AttributeUsage(AttributeTargets.Property)]
-    public class BirthdayValidation : ValidationAttribute
+    public class PastDateValidation : ValidationAttribute
     {
         public int MaximumAge { get; private set; }
 
-        public BirthdayValidation(int MaximumAge)
+        public PastDateValidation(int MaximumAge)
         {
             this.MaximumAge = MaximumAge;
         }
 
         public override bool IsValid(object value)
         {
-            ErrorMessage = "Ошибка в дате рождения";
+            ErrorMessage = "Ошибка в дате";
             if (value == null) return false;
             var date = Convert.ToDateTime(value);
             if (date > DateTime.Now) return false;

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TestTask.Context;
 using TestTask.ViewModels;
 using TestTask.Extensions;
+using TestTask.Models;
 
 namespace TestTask.Context
 {
@@ -16,62 +17,83 @@ namespace TestTask.Context
         public DataProvider(MedContext context)
         {
             this.context = context;
-
         }
 
-        [ValidateAntiForgeryToken]
-        public DataProviderResult AddPatient(PatientViewModel patientModel)
+        public async Task<DataProviderResult> AddGraft(GraftViewModel graftModel)
         {
             try
             {
-                Patient patient = new Patient
+                var patient = await GetPatient(graftModel.PatientId);
+                if (patient == null) return new DataProviderResult { Succeeded = false, Errors = new List<string>() { "Пользователь не найден" } };
+
+                Graft graft = new Graft
+                {
+                    Drug = graftModel.Drug,
+                    EventDate = graftModel.EventDate,
+                    Consent = graftModel.Consent,
+                    Patient = patient,
+                };
+
+                await context.Grafts.AddAsync(graft);
+                await context.SaveChangesAsync();
+                return new DataProviderResult { Succeeded = true, ReturnedData = patient.Id };
+            }
+            catch { }
+            return new DataProviderResult { Succeeded = false, Errors = new List<string>() { "Ошибка при добавлении прививки в базу данных" } };
+        }
+
+        public async Task<DataProviderResult> AddPatient(PatientViewModel patientModel)
+        {
+            try
+            {
+                var patient = new Patient
                 {
                     Birthday = patientModel.Birthday,
                     Name = patientModel.Name,
                     Patronymic = patientModel.Patronymic,
-                    Sex = patientModel.Sex,
+                    Sex = (SexType)patientModel.Sex,
                     SNILS = SnilsUniversalView(patientModel.SNILS),
                     Surname = patientModel.Surname,
                 };
 
-                context.Patients.Add(patient);
-                context.SaveChanges();
-                return new DataProviderResult { Succeeded = true, AdditionalData = patient.Id };
+                await context.Patients.AddAsync(patient);
+                await context.SaveChangesAsync();
+                return new DataProviderResult { Succeeded = true, ReturnedData = patient.Id };
             }
             catch { }
             return new DataProviderResult { Succeeded = false, Errors = new List<string>() { "Ошибка при добавлении пациента в базу данных" } };
         }
 
-        public DataProviderResult EditPatient(PatientViewModel patientModel)
+        public async Task<DataProviderResult> EditPatient(PatientViewModel patientModel)
         {
             try
             {
-                var patient = GetPatient(patientModel.Id);
+                var patient = await GetPatient(patientModel.Id);
                 if (patient == null) return new DataProviderResult { Succeeded = false, Errors = new List<string>() { "Пациент не найден" } };
 
                 patientModel.CopyPropertyValuesTo(patient);
-                context.SaveChanges();
+                await context.SaveChangesAsync();
                 return new DataProviderResult { Succeeded = true };
             }
             catch { }
             return new DataProviderResult { Succeeded = false, Errors = new List<string>() { "Ошибка при редактировании пациента" } };
         }
 
-        public ICollection<Patient> GetAllPatients()
+        public async Task<ICollection<Patient>> GetAllPatients()
         {
-            return context.Patients.ToList();
+            return await context.Patients.ToListAsync();
         }
 
-        public Patient GetPatient(int? id)
+        public async Task<Patient> GetPatient(int? id)
         {
             if (!id.HasValue) return null;
-            return context.Patients.Where(x => x.Id == id).FirstOrDefault();
+            return await context.Patients.Where(x => x.Id == id).FirstOrDefaultAsync();
         }
 
-        public Patient GetPatientWithGrafts(int? id)
+        public async Task<Patient> GetPatientWithGrafts(int? id)
         {
             if (!id.HasValue) return null;
-            return context.Patients.Where(x => x.Id == id).Include(x => x.Grafts).FirstOrDefault();
+            return await context.Patients.Where(x => x.Id == id).Include(x => x.Grafts).FirstOrDefaultAsync();
         }
 
         private string SnilsUniversalView(string val)
@@ -85,6 +107,6 @@ namespace TestTask.Context
     {
         public bool Succeeded { get; set; }
         public List<string> Errors { get; set; } = new List<string>();
-        public object AdditionalData { get; set; } = null;
+        public object ReturnedData { get; set; } = null;
     }
 }
