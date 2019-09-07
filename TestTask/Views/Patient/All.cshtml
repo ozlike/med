@@ -8,6 +8,8 @@
 <div class="content">
     <h1>Все пациенты</h1>
 
+    <input type="text" class="search-panel" id="search" placeholder="Поиск (ФИО СНИЛС)" />
+
     <table class="patients-table">
         <thead>
             <tr>
@@ -20,7 +22,7 @@
         <tbody>
             @foreach (var pacient in Model)
             {
-                <tr onclick="">
+                <tr onclick="" class="patient-line">
                     <td>@pacient.Surname</td>
                     <td>@pacient.Name</td>
                     <td>@pacient.Patronymic</td>
@@ -30,3 +32,38 @@
         </tbody>
     </table>
 </div>
+
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+        let patientsInfo = [];
+        for (let line of document.getElementsByClassName("patient-line")) {
+            let lineInfo = [];
+            for (let child of line.children) {
+                lineInfo.push(child.innerText);
+            }
+            patientsInfo.push({ lineInfo: lineInfo, target: line});
+        }
+
+        document.getElementById("search").addEventListener("input", function (e) {
+            let searchWords = e.target.value.split(' ').filter(x=> x.length != 0);
+
+            for (let pInfo of patientsInfo) {
+                pInfo.target.classList.remove("hide");
+                for (let word of searchWords) {
+                    if (!lineContainWord(pInfo.lineInfo, word)) {
+                        pInfo.target.classList.add("hide");
+                    }
+                }
+            }
+        });
+    });
+
+    function lineContainWord(lineArray, word) {
+        var regex = new RegExp("^" + word);
+        for (let cell of lineArray) {
+            if (regex.test(cell)) return true;
+        }
+        return false;
+    }
+
+</script>

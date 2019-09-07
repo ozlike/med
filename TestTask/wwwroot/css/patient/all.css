@@ -14,7 +14,7 @@
 
 .patients-table {
     border-collapse: collapse;
-    width: 95%;
+    width: 100%;
     margin-bottom: 35px;
 }
 
@@ -47,7 +47,19 @@
     background-color: #eee;
 }
 
-@media all and (max-width: 900px){
+.search-panel{
+    padding: 9px 40px;
+    font-size: 1rem;
+    outline: none;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.hide{
+    display: none;
+}
+
+@media all and (max-width: 900px) {
     .content {
         width: 90%;
     }

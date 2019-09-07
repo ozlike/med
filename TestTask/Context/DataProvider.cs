@@ -28,7 +28,7 @@ namespace TestTask.Context
                     Name = patientModel.Name,
                     Patronymic = patientModel.Patronymic,
                     Sex = patientModel.Sex,
-                    SNILS = patientModel.SNILS,
+                    SNILS = SnilsUniversalView(patientModel.SNILS),
                     Surname = patientModel.Surname,
                 };
 
@@ -43,6 +43,11 @@ namespace TestTask.Context
         public ICollection<Patient> GetAllPatients()
         {
             return context.Patients.ToList();
+        }
+
+        private string SnilsUniversalView(string val)
+        {
+            return string.Join("", val.Where(x => char.IsDigit(x))).Insert(3, "-").Insert(7, "-").Insert(11, "-");            
         }
     }
 
