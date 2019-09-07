@@ -5,11 +5,19 @@
     ViewBag.Title = "Редактирование прививки";
 }
 <link href="/css/graft/add.css" rel="stylesheet" asp-append-version="true" />
-<link href="/css/common/modal-window.css" rel="stylesheet"  asp-append-version="true" />
+<link href="/css/common/modal-window.css" rel="stylesheet" asp-append-version="true" />
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<ul class="nav">
+    <li><a href="/">Главная</a></li>
+    <li>></li>
+    <li><a href="@Url.Action("Index", "Patient", new { id = Model.PatientId })">@Model.PatientFullName</a></li>
+    <li>></li>
+    <li><a href="@Url.Action("Edit", "Graft", new { patientId = Model.PatientId, graftId = Model.Id })">Редактировать прививку</a></li>
+</ul>
 
 <div class="modal-window-container hide">
     <div class="modal-window">

@@ -6,6 +6,10 @@
 
 <link href="~/css/patient/all.css" rel="stylesheet" asp-append-version="true" />
 
+<ul class="nav">
+    <li><a href="/">Главная</a></li>
+</ul>
+
 <div class="content">
     <h1>@ViewBag.Title</h1>
 
@@ -48,7 +52,7 @@
             for (let line of document.getElementsByClassName("patient-line")) {
                 line.classList.remove("hide");
                 for (let word of searchWords) {
-                    if (!lineContainWord(line, word)) {
+                    if (!lineContainWord(line, word.toLowerCase())) {
                         line.classList.add("hide");
                     }
                 }
@@ -60,7 +64,7 @@
     function lineContainWord(HTML_line, word) {
         var regex = new RegExp("^" + word);
         for (let cell of HTML_line.children) {
-            if (regex.test(cell.innerText)) return true;
+            if (regex.test(cell.innerText.toLowerCase())) return true;
         }
         return false;
     }
