@@ -35,33 +35,26 @@
 
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function () {
-        let patientsInfo = [];
-        for (let line of document.getElementsByClassName("patient-line")) {
-            let lineInfo = [];
-            for (let child of line.children) {
-                lineInfo.push(child.innerText);
-            }
-            patientsInfo.push({ lineInfo: lineInfo, target: line});
-        }
 
         document.getElementById("search").addEventListener("input", function (e) {
-            let searchWords = e.target.value.split(' ').filter(x=> x.length != 0);
+            let searchWords = e.target.value.split(' ').filter(x => x.length != 0);
 
-            for (let pInfo of patientsInfo) {
-                pInfo.target.classList.remove("hide");
+            for (let line of document.getElementsByClassName("patient-line")) {
+                line.classList.remove("hide");
                 for (let word of searchWords) {
-                    if (!lineContainWord(pInfo.lineInfo, word)) {
-                        pInfo.target.classList.add("hide");
+                    if (!lineContainWord(line, word)) {
+                        line.classList.add("hide");
                     }
                 }
             }
         });
+
     });
 
-    function lineContainWord(lineArray, word) {
+    function lineContainWord(HTML_line, word) {
         var regex = new RegExp("^" + word);
-        for (let cell of lineArray) {
-            if (regex.test(cell)) return true;
+        for (let cell of HTML_line.children) {
+            if (regex.test(cell.innerText)) return true;
         }
         return false;
     }

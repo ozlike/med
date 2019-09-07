@@ -1,0 +1,40 @@
+﻿
+@using TestTask.Extensions
+@using TestTask.Context
+@model Patient
+@{
+    ViewData["Title"] = "Index";
+}
+
+<link href="~/css/patient/index.css" rel="stylesheet" asp-append-version="true" />
+
+<div class="content">
+    <h1>Страница пациента</h1>
+    <div class="patient-info">
+        <div>Фамилия:</div>
+        <div>@Model.Surname</div>
+
+        <div>Имя:</div>
+        <div>@Model.Name</div>
+
+        @if (Model.Patronymic != null)
+        {
+            <div>Отчество:</div>
+            <div>@Model.Patronymic</div>
+        }
+
+        <div>Дата рождения:</div>
+        <div>@Model.Birthday.ToString("d MMM. yyyy")</div>
+
+        <div>Пол:</div>
+        <div>@(((SexType)Model.Sex).GetDisplayNameAttribute())</div>
+
+        <div>СНИЛС:</div>
+        <div>@Model.SNILS</div>
+    </div>
+    <div class="aligning-container">
+        <div class="button">Редактировать</div>
+    </div>
+</div>
+
+

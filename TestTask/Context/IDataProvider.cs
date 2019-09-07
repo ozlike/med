@@ -10,6 +10,8 @@ namespace TestTask.Context
     {
         DataProviderResult AddPatient(CreatePatientViewModel patientModel);
         ICollection<Patient> GetAllPatients();
+        Patient GetPatient(int? id);
+        Patient GetPatientWithGrafts(int? id);
 
 
 

@@ -16,6 +16,14 @@ namespace TestTask.Controllers
             db = dataProvider;
         }
 
+        public IActionResult Index(int? id)
+        {
+            var patient = db.GetPatientWithGrafts(id);
+            if (patient == null) return RedirectToAction("All", "Patient");
+            
+            return View(patient);
+        }
+
         [HttpGet]
         public IActionResult Create()
         {

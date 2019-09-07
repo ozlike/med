@@ -1,0 +1,48 @@
+﻿
+.content {
+    display: block;
+    width: 400px;
+    margin: 100px auto;
+}
+
+.content h1 {
+    font-size: 2.2rem;
+    font-weight: bold;
+    margin: 45px 0;
+    text-align:center;
+}
+
+.patient-info{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.patient-info div {
+    padding-bottom: 2px;
+    margin-bottom: 14px;
+    border-bottom: 1px #000 solid;
+    text-align: center;
+}
+.patient-info div:nth-child(2n){
+    padding-left: 7px;
+}
+.patient-info div:nth-child(2n+1) {
+    font-weight: bold;
+}
+
+
+.button {
+    display: inline-block;
+    padding: 10px 50px;
+    border-radius: 5px;
+    border: 0;
+    background-color: #999;
+    cursor: pointer;
+    margin: 15px auto 30px auto;
+    outline: none;
+}
+.aligning-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

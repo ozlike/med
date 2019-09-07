@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,6 +44,18 @@ namespace TestTask.Context
         public ICollection<Patient> GetAllPatients()
         {
             return context.Patients.ToList();
+        }
+
+        public Patient GetPatient(int? id)
+        {
+            if (!id.HasValue) return null;
+            return context.Patients.Where(x => x.Id == id).FirstOrDefault();
+        }
+
+        public Patient GetPatientWithGrafts(int? id)
+        {
+            if (!id.HasValue) return null;
+            return context.Patients.Where(x => x.Id == id).Include(x => x.Grafts).FirstOrDefault();
         }
 
         private string SnilsUniversalView(string val)
