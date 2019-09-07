@@ -1,0 +1,28 @@
+﻿@model ShowMessageModel
+
+@{
+    ViewBag.Title = Model.Title;
+}
+
+<style>
+    h1{
+        display: block;
+        font-size: 1.8rem;
+        width: 100%;
+        text-align: center;
+        font-weight: bold;
+        margin-top: 25vh;
+    }
+</style>
+
+<h1>@Model.Message</h1>
+
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+        setTimeout(() => {
+            window.location.href = "@(Model.Url)";
+        }, @(Model.SecondsToRedirect) * 1000);
+    });
+</script>
+
+

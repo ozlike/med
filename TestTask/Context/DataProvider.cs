@@ -36,7 +36,7 @@ namespace TestTask.Context
 
                 context.Patients.Add(patient);
                 context.SaveChanges();
-                return new DataProviderResult { Succeeded = true };
+                return new DataProviderResult { Succeeded = true, AdditionalData = patient.Id };
             }
             catch { }
             return new DataProviderResult { Succeeded = false, Errors = new List<string>() { "Ошибка при добавлении пациента в базу данных" } };
@@ -85,5 +85,6 @@ namespace TestTask.Context
     {
         public bool Succeeded { get; set; }
         public List<string> Errors { get; set; } = new List<string>();
+        public object AdditionalData { get; set; } = null;
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using TestTask.Context;
 using TestTask.ViewModels;
 using TestTask.Extensions;
+using TestTask.Models;
 
 namespace TestTask.Controllers
 {
@@ -42,7 +43,10 @@ namespace TestTask.Controllers
                 var result = db.EditPatient(model);
                 if (result.Succeeded)
                 {
-                    return Content("Edited!");
+                    return View("ShowMessage", new ShowMessageModel {
+                        Message = "Пользователь успешно отредактирован!",
+                        Url = "/Patient/Index?id=" + model.Id,
+                    });
                 }
 
                 ViewBag.Errors = result.Errors;
@@ -68,8 +72,11 @@ namespace TestTask.Controllers
                 var result = db.AddPatient(model);
                 if (result.Succeeded)
                 {
-                    //return RedirectToAction("Patient");
-                    return Content("Added!");
+                    return View("ShowMessage", new ShowMessageModel
+                    {
+                        Message = "Пользователь успешно добавлен!",
+                        Url = "/Patient/Index?id=" + (result.AdditionalData as int?),
+                    });
                 }
 
                 ViewBag.Errors = result.Errors;
