@@ -83,8 +83,11 @@ namespace TestTask.Context
         {
             try
             {
-                var patient = await GetPatient(patientModel.Id);
+                var patient = await GetPatientWithGrafts(patientModel.Id);
                 if (patient == null) return new DataProviderResult { Succeeded = false, Errors = new List<string>() { "Пациент не найден" } };
+                if (patient.Grafts != null && patient.Grafts.Count != 0)
+                    context.Grafts.RemoveRange(patient.Grafts);
+                
                 context.Patients.Remove(patient);
                 await context.SaveChangesAsync();
                 return new DataProviderResult { Succeeded = true };
