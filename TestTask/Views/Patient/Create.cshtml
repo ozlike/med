@@ -60,7 +60,8 @@
         <div class="field-section">
             <label asp-for="Birthday"></label>
             <span asp-validation-for="Birthday" id="dateSpan" class="error-text"></span>
-            <input name="Birthday" value="@Html.Raw(Model == null ? "" : Model.Birthday.ToString("dd.MM.yyyy"))" type="text" id="datepicker" placeholder="дд.мм.гггг" />
+            <input asp-for="Birthday" type="date" id="formDate" hidden />
+            <input autocomplete="off" value="@Html.Raw(Model == null ? "" : Model.Birthday.ToString("dd.MM.yyyy"))" type="text" id="datepicker" placeholder="дд.мм.гггг" />
         </div>
 
 
