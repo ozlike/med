@@ -12,8 +12,8 @@ namespace TestTask.Controllers
 {
     public class PatientController : Controller
     {
-        IDataProvider db;
-        public PatientController(IDataProvider dataProvider)
+        IPatientProvider db;
+        public PatientController(IPatientProvider dataProvider)
         {
             db = dataProvider;
         }

@@ -6,7 +6,7 @@ using TestTask.ViewModels;
 
 namespace TestTask.Context
 {
-    public interface IDataProvider
+    public interface IPatientProvider
     {
         Task<DataProviderResult> AddPatient(PatientViewModel patientModel);
         Task<DataProviderResult> EditPatient(PatientViewModel patientModel);
@@ -14,11 +14,6 @@ namespace TestTask.Context
         Task<ICollection<Patient>> GetAllPatients();
         Task<Patient> GetPatient(int? patientId);
         Task<Patient> GetPatientWithGrafts(int? patientId);
-
-
-        Task<DataProviderResult> AddGraft(GraftViewModel graftModel);
-        Task<DataProviderResult> EditGraft(GraftViewModel graftModel);
-        Task<DataProviderResult> DeleteGraft(GraftViewModel graftModel);
-        Task<Graft> GetGraft(int? draftId);
+        
     }
 }

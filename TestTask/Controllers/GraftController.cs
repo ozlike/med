@@ -12,8 +12,8 @@ namespace TestTask.Controllers
 {
     public class GraftController : Controller
     {
-        IDataProvider db;
-        public GraftController(IDataProvider dataProvider)
+        IGraftProvider db;
+        public GraftController(IGraftProvider dataProvider)
         {
             db = dataProvider;
         }
